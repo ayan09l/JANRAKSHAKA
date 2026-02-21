@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JanRakshak | Civic Portal</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* Gradient Navbar */
+.navbar-custom{
+background: linear-gradient(90deg,#0f4157,#1f7171);
+}
+
+/* Hero Gradient */
+.hero{
+background: linear-gradient(135deg,#253a70,#1a5778);
+color:white;
+padding:100px 20px;
+text-align:center;
+}
+
+/* Card Hover */
+.issue-card{
+transition:0.3s;
+}
+.issue-card:hover{
+transform:translateY(-6px);
+}
+
+/* Status Badge Outline */
+.status-btn{
+padding:4px 12px;
+border-radius:20px;
+font-size:0.8rem;
+font-weight:600;
+}
+
+/* Dashboard background */
+.dashboard-section{
+background:#f4f7fa;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-4">
+<a class="navbar-brand fw-bold" href="#">JanRakshak</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navmenu">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Report</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Status</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+</ul>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<h1 class="fw-bold">Smart Civic Issue Reporting Platform</h1>
+<p class="mt-3">Transparent • Trackable • Accountable Governance</p>
+<a href="#report" class="btn btn-outline-light mt-3">Report Issue</a>
+</div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="py-5">
+<div class="container text-center">
+<h2 class="mb-5">Common Civic Issues</h2>
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card issue-card shadow-sm p-4">
+<h5>Potholes</h5>
+<button class="btn btn-warning btn-sm mt-2" onclick="selectIssue('Pothole')">Select</button>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card issue-card shadow-sm p-4">
+<h5>Water Leakage</h5>
+<button class="btn btn-info btn-sm mt-2" onclick="selectIssue('Water Leakage')">Select</button>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card issue-card shadow-sm p-4">
+<h5>Garbage</h5>
+<button class="btn btn-success btn-sm mt-2" onclick="selectIssue('Garbage')">Select</button>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card issue-card shadow-sm p-4">
+<h5>Streetlight</h5>
+<button class="btn btn-dark btn-sm mt-2" onclick="selectIssue('Streetlight')">Select</button>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- REPORT FORM -->
+<section id="report" class="py-5 bg-light">
+<div class="container">
+<h2 class="text-center mb-4">Submit Complaint</h2>
+
+<div class="card p-4 shadow-sm">
+<div class="row g-3">
+
+<div class="col-md-6">
+<input type="text" id="name" class="form-control" placeholder="Your Name">
+</div>
+
+<div class="col-md-6">
+<input type="text" id="location" class="form-control" placeholder="Location">
+</div>
+
+<div class="col-md-6">
+<select id="priority" class="form-select">
+<option value="Minor Crack">Minor Crack</option>
+<option value="Major Road Damage">Major Road Damage</option>
+<option value="Highway Collapse">Highway Collapse</option>
+<option value="Pipeline Burst">Pipeline Burst</option>
+<option value="Overflow Drain">Overflow Drain</option>
+<option value="Handpump Damage">Handpump Damage</option>
+<option value="Overflowing Bin">Overflowing Bin</option>
+<option value="Illegal Dumping">Illegal Dumping</option>
+<option value="Light Not Working">Light Not Working</option>
+<option value="Pole Damaged">Pole Damaged</option>
+<option value="Wire Issue">Wire Issue</option>
+
+</select>
+</div>
+
+<div class="col-12">
+<textarea class="form-control" rows="3" placeholder="Describe issue"></textarea>
+</div>
+
+<div class="col-12">
+<button class="btn btn-primary w-100" onclick="addComplaint()">Submit Complaint</button>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="py-5 dashboard-section">
+<div class="container">
+<h2 class="text-center mb-5">Live Complaint Status</h2>
+
+<div class="row g-4" id="board"></div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center text-white py-3 navbar-custom">
+© 2026 JanRakshak | Government Civic Prototype
+</footer>
+
+<script>
+
+let selectedIssue="General Issue";
+
+function selectIssue(issue){
+selectedIssue=issue;
+document.getElementById("report").scrollIntoView({behavior:"smooth"});
+}
+
+function addComplaint(){
+
+let name=document.getElementById("name").value;
+let location=document.getElementById("location").value;
+let priority=document.getElementById("priority").value;
+
+if(name==="" || location===""){
+alert("Fill all required fields");
+return;
+}
+
+let badgeClass="";
+let badgeText="";
+
+if(priority==="verified"){
+badgeClass="btn-outline-success";
+badgeText="Verified";
+}
+else if(priority==="pending"){
+badgeClass="btn-outline-warning";
+badgeText="Pending";
+}
+else{
+badgeClass="btn-outline-secondary";
+badgeText="Closed";
+}
+
+let col=document.createElement("div");
+col.className="col-md-4";
+
+col.innerHTML=`
+<div class="card shadow-sm p-3">
+<h5>${selectedIssue}</h5>
+<p><strong>Location:</strong> ${location}</p>
+<p><strong>Reported By:</strong> ${name}</p>
+<button class="btn ${badgeClass} status-btn mt-2">${badgeText}</button>
+</div>
+`;
+
+document.getElementById("board").prepend(col);
+
+document.getElementById("name").value="";
+document.getElementById("location").value="";
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
